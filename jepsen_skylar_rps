@@ -1,0 +1,103 @@
+import random                                                                   #add random into code so you can use it later
+
+def colored_text(text, color_name, input_or_print):                             #change color of questions
+    colors = {                                                                  #introduce color options
+        'black': '\033[30m',                                                    #option black
+        'red': '\033[31m',                                                      #option red
+        'green': '\033[32m',                                                    #option green
+        'yellow': '\033[33m',                                                   #option yellow
+        'blue': '\033[34m',                                                     #option blue
+        'magenta': '\033[35m',                                                  #option magenta
+        'cyan': '\033[36m',                                                     #option cyan
+        'white': '\033[37m',                                                    #option white
+        'reset': '\033[0m',                                                     #Reset to default
+    }
+    
+    color_code = colors.get(color_name.lower(), '\033[37m')                     #Default to white if color not found
+    if input_or_print == "input":                                               #replace the input in the front with print or input later in the string
+        return input(f"{color_code}{text}\033[0m")                              #Print text with color and reset
+    else:                                                                       #if anything else then
+        print(f"{color_code}{text}\033[0m")                                     #Print text with color and reset
+
+weapons = ["rock", "paper", "scissors"]                                         #list all of the weapons
+twist = ["you win!", "you lose!", "tie!"]                                       #list all the twist responses
+answers = ["yes", "no", "maybe", "ask again later"]                             #list all of the answers
+
+while True:                                                                     #create forever loop
+    which_game = colored_text ("Which Game Do You Want To Play - Rock, Paper, Scissors(rps) or with a twist(rpst) or Know Your Destiny(kyd)? Choose: rps/rpst/kyd: ", 'blue', 'input')       #ask which game to play
+    if which_game == "rpst" or which_game == "rps":                             #if user chooses to play rps or rpst then
+        while True:                                                             #create forever loop
+            try:                                                                #try this
+                rounds = int(colored_text ("How Many Rounds Do You Want To Play?: ", "cyan", "input"))  #ask how many rounds          
+                break                                                           #break out of code
+            except ValueError:                                                  #but if there's a ValueError then
+                colored_text ("Please enter a valid number", 'red', 'print')    #print something to tell the user what do to
+        user_score = 0
+        bot_score = 0
+        score_limit = 5
+        while rounds > 0 and user_score < score_limit and bot_score < score_limit:                                                                  #if the user want to play more than 0 rounds then
+            bot_rps = random.choice (weapons)                                   #the computer picks a random weapon from the list    
+
+            while True:                                                         #create infinite loop
+                user_rps = colored_text ("Chose Your Weapon: rock/paper/scissors/twist (only works in rpst)/quit: ", 'cyan', 'input').lower()       #ask user to choose a weapon
+                
+                if user_rps in weapons or user_rps == "sos" or user_rps == "play kyd" or (user_rps == "twist" and which_game == "rpst"):            #if the user picks a weapon in the options or type a code word then
+                    break                                                       #break out of loop
+                elif user_rps == "quit":                                        #if the user types quit then
+                    colored_text ("quitting isn't an option.", 'red', 'print')  #print something
+                else:                                                           #if user chooses anything else
+                    colored_text ("Invalid Response", 'red', 'print')           #print something
+            if user_rps == "sos":                                               #if user says the code word
+                colored_text ("You're excused", 'yellow', 'print')              #print text
+                exit()                                                          #leave whole code
+            elif user_rps == "play kyd":                                        #if user chooses to play kyd in the middle of rps
+                break                                                           #break out of rps
+            elif user_rps == bot_rps:                                           #is the user has the same weapon as the bot
+                colored_text ("tie!", 'yellow', 'print')                        #print text
+            elif bot_rps == "rock" and user_rps == "paper":                     #if bot has rock and user has paper
+                colored_text ("You lose!", 'magenta', 'print')                  #print colored text
+                bot_score += 1                                                  #add 1 to bot score
+            elif bot_rps == "rock" and user_rps == "scissors":                  #if bot has rock and user has scissors
+                colored_text ("You win!", 'green', 'print')                     #print colored text
+                user_score += 1                                                 #add 1 to user score
+            elif bot_rps == "paper" and user_rps == "rock":                     #if bot has paper and user has rock
+                colored_text ("You lose!", 'magenta', 'print')                  #print colored text
+                bot_score += 1                                                  #add 1 to bot score
+            elif bot_rps == "paper" and user_rps == "scissors":                 #if bot has paper and user has scissors
+                colored_text ("You win!", 'green', 'print')                     #add 1 to user score
+                user_score += 1                                                 #add 1 to user score
+            elif bot_rps == "scissors" and user_rps == "paper":                 #if bot has scissors and user has paper
+                colored_text ("You lose!", 'magenta', 'print')                  #print colored text
+                bot_score += 1                                                  #add 1 to bot score
+            elif bot_rps == "scissors" and user_rps == "rock":                  #if bot has scissors and user has rock
+                colored_text ("You win!", 'green', 'print')                     #print colored text
+                user_rps += 1                                                   #add 1 to user score
+            elif which_game == "rpst" and user_rps == "twist":                  #if user chooses to play rpst
+                colored_text(random.choice(twist), "yellow", "input")           #print the bot's random choice from list
+            colored_text(f"user: {user_score} bot: {bot_score}", "cyan", "print")       #print user score and bot score
+            rounds -= 1                                                         #subtract 1 from the amount of rounds every round
+        if bot_score > user_score:                                              #if bot has a greater score than user
+            colored_text("Bot won this game", "magenta", "print")               #print colored text
+        else:                                                                   #if anything else
+            colored_text("You won this game!", "green", "print")                #print colored text
+    elif which_game == "kyd":                                                   #if user chooses to play kyd
+        while True:                                                             #create infinite loop
+            try:                                                                #try this
+                how_many_questions = int(colored_text ("How Many Rounds Do You Want To Play?: ", "blue", "input"))           #ask user how many rounds to play             
+                break                                                           #break out of loop
+            except ValueError:                                                  #except if there is a ValueError
+                colored_text ("Please enter a valid number", 'red', 'print')    #print colored text
+        while how_many_questions > 0:                                           #if user chooses to play more than 0 rounds                           
+            question = colored_text ("What's your yes or no question?: ", 'magenta', 'input')                               #ask user to type question                   
+            if question == "quit all":                                          #if user says code word
+                exit ()                                                         #leave code
+            elif question == "quit game":                                       #if user says other code word
+                break                                                           #break out of kyd
+            elif "?" in question:                                               #if theres a ? in the user's question        
+                answer = random.choice(answers)                                 #print a random answer from list                        
+                colored_text(answer, 'cyan', 'print')                           #print colored text                                                                                                              
+            else:                                                               #if user types anything else            
+                colored_text("that's not a question.", 'red', 'print')          #print colored text
+            how_many_questions -= 1                                             #subtract 1 from rounds every round
+    else:                                                                       #if user chooses to play anything else
+        colored_text ("Invalid Response", "red", "print")                       #print colored text

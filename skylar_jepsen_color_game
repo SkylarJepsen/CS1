@@ -1,0 +1,38 @@
+import random
+
+def colored_text(text, color_name):                             #change color of questions
+    colors = {                                                                  #introduce color options
+        'black': '\033[30m',                                                    #option black
+        'red': '\033[31m',                                                      #option red
+        'green': '\033[32m',                                                    #option green
+        'yellow': '\033[33m',                                                   #option yellow
+        'blue': '\033[34m',                                                     #option blue
+        'magenta': '\033[35m',                                                  #option magenta
+        'cyan': '\033[36m',                                                     #option cyan
+        'white': '\033[37m',                                                    #option white
+        'reset': '\033[0m',                                                     #Reset to default
+    }
+    
+    color_code = colors.get(color_name.lower(), '\033[37m')                     #Default to white if color not found
+    print(f"{color_code}{text}\033[0m")                                     #Print text with color and reset
+
+name = input ("What is your name?: ")                                           #set name to input (What is your name?)
+print (f"Hello {name}, the goal of this game is to type the color of the text written not the text itself")         #print(Hello name, the goal of this game is to type the color of the text written not the text itself!)
+color_options = ["black", "red", "green", "yellow", "blue"]                     #create list of colors that contain: black, red, green, yellow, and blue
+rounds = 0                                                                      #set rounds to zero
+correct = 0                                                                     #set correct to zero
+
+while True:                                                                     #while true loop
+    text_color = random.choice (color_options)                                  #set text color to choose random color from the list
+    print_color = random.choice (color_options)                                 #set print color to choose random color from list
+    colored_text(text_color, print_color)                                   #have set colored text apply to text color and print color using function
+    user_color = input ("Quick, enter the color of the text!: ")              #set user color to input (Quick, enter the color of the text/n)
+    if user_color == print_color:                                               #if user color is the same as print color
+        print ("You got it!")                                                   #print (You got it!)
+        correct += 1                                                            #add a point to amount of correct answers
+    else:                                                                       #user answers anything else
+        print ("Wrong!")                                                        #print (Wrong!)
+    rounds += 1                                                                 #add one point to amount of rounds played
+    play_again = input (f"{name} You have gotten {correct} out of {rounds} Would you like to play again? y/n: ")    #set play again to input (function name, you have gotten (# of correct rounds) correct out of (total rounds played). Would you like to play again? Enter y/n:)
+    if play_again == "n":                                                       #if player answers n to play again
+        break                                                                   #break out of while true
